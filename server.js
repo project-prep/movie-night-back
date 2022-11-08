@@ -30,9 +30,18 @@ app.get('/', (request, response) => {
 app.get('/movies', async (request, response, next) => {
     try {
         let title = request.query.title;
+        // const options = {
+        //   method: 'GET',
+        //   url: 'https://ott-details.p.rapidapi.com/search',
+        //   params: {title: title, page: '1'},
+        //   headers: {
+        //     'X-RapidAPI-Key': process.env.MOVIE_KEY,
+        //     'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
+        //   }
+        // };
         const options = {
           method: 'GET',
-          url: 'https://ott-details.p.rapidapi.com/search',
+          url: 'https://ott-details.p.rapidapi.com/gettitleDetails',
           params: {title: title, page: '1'},
           headers: {
             'X-RapidAPI-Key': process.env.MOVIE_KEY,
