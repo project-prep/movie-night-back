@@ -48,10 +48,10 @@ app.get('/movies', async (request, response, next) => {
 
 class Film{
     constructor(films) {
-        this.title = films.title;
-        this.synopsis = films.synopsis;
-        this.released = films.released;
-        this.imageurl = films.imageurl;
+        this.title = films[0].title;
+        this.synopsis = films[0].synopsis;
+        this.released = films[0].released;
+        this.imageurl = films[0].imageurl;
     }
 }
 
