@@ -29,17 +29,24 @@ app.get('/', (request, response) => {
 
 app.get('/movies', async (request, response, next) => {
     try {
-
         let title = request.query.title;
+        const options = {
+          method: 'GET',
+          url: 'https://ott-details.p.rapidapi.com/search',
+          params: {title: title, page: '1'},
+          headers: {
+            'X-RapidAPI-Key': process.env.MOVIE_KEY,
+            'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
+          }
+        };
 
-        let url = `https://ott-details.p.rapidapi.com/search?title=${title}&rapidapi-key=${process.env.MOVIE_KEY})`
-
-        let getMovie = await axios.get(url);
+        let getMovie = await axios(options);
 
         console.log('results', getMovie.data);
 
         let groomedData = getMovie.data.results.map(movie => {return new Film(movie)});
             response.status(200).send(groomedData);
+        console.log(groomedData);
     } catch (error) {
         next(error);
     }
@@ -48,12 +55,19 @@ app.get('/movies', async (request, response, next) => {
 
 class Film{
     constructor(films) {
-        this.title = films[0].title;
-        this.synopsis = films[0].synopsis;
-        this.released = films[0].released;
-        this.imageurl = films[0].imageurl;
+        this.title = films.title;
+        this.synopsis = films.synopsis;
+        this.released = films.released;
+        this.imageurl = films.imageurl;
     }
 }
+
+
+// axios.request(options).then(function (response) {
+// 	console.log(response.data);
+// }).catch(function (error) {
+// 	console.error(error);
+// });
 
 
 app.get('*', (request, response) => {
