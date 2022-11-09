@@ -30,32 +30,36 @@ app.get('/', (request, response) => {
 app.get('/movies', async (request, response, next) => {
     try {
         let title = request.query.title;
-        // const options = {
-        //   method: 'GET',
-        //   url: 'https://ott-details.p.rapidapi.com/search',
-        //   params: {title: title, page: '1'},
-        //   headers: {
-        //     'X-RapidAPI-Key': process.env.MOVIE_KEY,
-        //     'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
-        //   }
-        // };
+        
         const options = {
           method: 'GET',
-          url: 'https://ott-details.p.rapidapi.com/gettitleDetails',
+          url: 'https://ott-details.p.rapidapi.com/search',
           params: {title: title, page: '1'},
           headers: {
             'X-RapidAPI-Key': process.env.MOVIE_KEY,
             'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
           }
         };
-
+       
         let getMovie = await axios(options);
 
-        console.log('results', getMovie.data);
+        console.log('results', getMovie.data.results[0].imdbid);
 
+        let imdbid = getIMDB.data.results[0].imdbid;
+
+        // const platform = {
+        //   method: 'GET',
+        //   url: 'https://ott-details.p.rapidapi.com/gettitleDetails',
+        //   params: {imdbid: imdbid, page: '1'},
+        //   headers: {
+        //     'X-RapidAPI-Key': process.env.MOVIE_KEY,
+        //     'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
+        //   }
+        // };
+        
         let groomedData = getMovie.data.results.map(movie => {return new Film(movie)});
             response.status(200).send(groomedData);
-        console.log(groomedData);
+        console.log(groomedData); 
     } catch (error) {
         next(error);
     }
