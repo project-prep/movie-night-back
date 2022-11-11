@@ -77,8 +77,10 @@ async function getMovies(request, response, next){
 app.post('/movieList', addMovie);
 
 async function addMovie(request, response, next) {
-  try{
+  try{ 
+    console.log('test', request.body);
     let newMovie = await movies.create(request.body);
+    console.log(newMovie);
     response.status(200).send(newMovie);
   } catch(error) {
     next(error);

@@ -6,7 +6,8 @@ const {Schema} = mongoose;
 
 const movieSchema = new Schema({
   title: {type: String, required: true },
-  status: {type: Boolean, required: true}
+  streaming: {type: String, required: true},
+  watched: {type: Boolean, required: true}
 });
 
 const movieModel = mongoose.model('Movie', movieSchema);
