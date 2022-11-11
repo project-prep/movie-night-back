@@ -92,6 +92,7 @@ app.delete('/movieList/:movieID', deleteMovie);
 async function deleteMovie(request, response, next) {
   try {
     let id = request.params.movieID;
+    console.log(request);
     await movies.findByIdAndDelete(id);
     response.status(200).send('Movie was removed');
   }catch(error) {
@@ -105,7 +106,8 @@ async function updateMovie(request, response, next) {
   try{
     let id = request.params.movieID;
     let data = request.body;
-
+    console.log('test', data);
+    console.log('yes', request);
     const updateMovie = await movies.findByIdAndUpdate(id, data, {new: true, overwrite: true});
     response.status(201).send(updateMovie);
 
