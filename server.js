@@ -46,6 +46,7 @@ app.get('/movies', async (request, response, next) => {
         console.log('results', getMovie.data);
         
         let groomedData = getMovie.data.results.map(movie => {return new Film(movie)});
+            groomedData.forEach(film => film.getLocations(film.locations))
             response.status(200).send(groomedData);
         console.log(groomedData); 
     } catch (error) {
@@ -59,6 +60,10 @@ class Film{
         this.name = films.name;
         this.locations = films.locations;
         this.picture = films.picture;
+    }
+    getLocations(locationArr) {
+      let locations = locationArr.map(obj => obj.display_name)
+      this.locations = locations
     }
 }
 
